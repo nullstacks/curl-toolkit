@@ -22,7 +22,7 @@ export function KeyValueEditor({ rows, onChange, keyPlaceholder = 'Key', valuePl
       {rows.map((row) => {
         const secret = secretKeys?.test(row.key) ?? false;
         return (
-          <div key={row.id} className="grid grid-cols-[auto_minmax(0,1fr)_minmax(0,1.4fr)_auto] items-center gap-2">
+          <div key={row.id} className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 sm:grid-cols-[auto_minmax(0,1fr)_minmax(0,1.4fr)_auto]">
             <input
               type="checkbox"
               aria-label={`Enable ${row.key || 'row'}`}
@@ -37,8 +37,9 @@ export function KeyValueEditor({ rows, onChange, keyPlaceholder = 'Key', valuePl
               autoComplete="off"
               value={row.value}
               onChange={(e) => update(row.id, { value: e.target.value })}
+              className="order-last col-span-3 sm:order-none sm:col-span-1"
             />
-            <Button variant="ghost" size="icon" aria-label={`Remove ${row.key || 'row'}`} onClick={() => onChange(rows.filter((r) => r.id !== row.id))}>
+            <Button variant="ghost" size="icon" className="order-3 sm:order-none" aria-label={`Remove ${row.key || 'row'}`} onClick={() => onChange(rows.filter((r) => r.id !== row.id))}>
               <Trash2 size={14} />
             </Button>
           </div>

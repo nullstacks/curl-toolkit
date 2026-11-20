@@ -12,13 +12,24 @@ export const NAV: Array<{ id: View; label: string; icon: typeof Terminal }> = [
   { id: 'settings', label: 'Settings', icon: SettingsIcon },
 ];
 
-export function Sidebar() {
+/**
+ * Desktop: fixed-width left column. Phones: bottom tab bar that respects the home-indicator inset.
+ */
+export function Sidebar({ className }: { className?: string }) {
   const view = useAppStore((s) => s.view);
   const setView = useAppStore((s) => s.setView);
   return (
-    <nav aria-label="Main" className="flex w-full shrink-0 items-center gap-1 border-b border-border bg-surface p-2 md:h-full md:w-52 md:flex-col md:items-stretch md:border-b-0 md:border-r md:p-3">
+    <nav
+      aria-label="Main"
+      className={cn(
+        'shrink-0 border-border bg-surface',
+        'grid grid-cols-6 border-t pb-[env(safe-area-inset-bottom)]',
+        'md:flex md:h-full md:w-52 md:flex-col md:border-r md:border-t-0 md:p-3 md:pb-3',
+        className,
+      )}
+    >
       <div className="mb-3 hidden items-center gap-2 px-2 md:flex">
-        <Binary size={16} className="text-accent" />
+        <Binary size={16} className="text-accent" aria-hidden="true" />
         <span className="text-[13px] font-semibold tracking-tight">cURL Toolkit</span>
       </div>
       {NAV.map((item) => {
@@ -30,12 +41,13 @@ export function Sidebar() {
             onClick={() => setView(item.id)}
             aria-current={active ? 'page' : undefined}
             className={cn(
-              'flex items-center gap-2 rounded-md px-2.5 py-1.5 text-[12.5px] transition-colors',
-              active ? 'bg-surface-2 text-fg' : 'text-muted hover:bg-surface-2/60 hover:text-fg',
+              'flex min-h-14 min-w-0 flex-col items-center justify-center gap-0.5 px-1 py-1.5 text-[10px] transition-colors',
+              'md:min-h-0 md:flex-row md:justify-start md:gap-2 md:rounded-md md:px-2.5 md:py-1.5 md:text-[12.5px]',
+              active ? 'text-fg md:bg-surface-2' : 'text-muted hover:text-fg md:hover:bg-surface-2/60',
             )}
           >
-            <Icon size={15} className={active ? 'text-accent' : ''} />
-            <span>{item.label}</span>
+            <Icon size={18} className={cn('md:h-[15px] md:w-[15px]', active && 'text-accent')} aria-hidden="true" />
+            <span className="max-w-full truncate">{item.label}</span>
           </button>
         );
       })}

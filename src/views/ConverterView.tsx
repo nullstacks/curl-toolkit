@@ -6,6 +6,7 @@ import { Button, Notice, Panel, Select, Badge } from '../components/ui';
 import { parseCurl } from '../lib/curl/parser';
 import { GENERATORS, generateCode, type LanguageId } from '../lib/codegen/generators';
 import { useAppStore } from '../store/appStore';
+import { useIsDesktop } from '../hooks/useMediaQuery';
 import { copyText, downloadBlob } from '../lib/utils';
 
 const SAMPLE = `curl -X POST 'https://api.example.com/v1/items' \\
@@ -32,6 +33,7 @@ export function ConverterView() {
     }
   }, [parsed, language]);
 
+  const isDesktop = useIsDesktop();
   const gen = GENERATORS.find((g) => g.info.id === language);
   const groups = ['Shell', 'Scripting', 'Compiled', 'Mobile', 'Data'] as const;
 
@@ -43,11 +45,11 @@ export function ConverterView() {
   };
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-2 p-2">
+    <div className="flex h-full min-h-0 flex-col gap-2 p-2 md:p-2">
       <div className="flex flex-wrap items-center gap-2">
-        <label className="flex items-center gap-2 text-[12.5px] text-muted">
+        <label className="flex w-full items-center gap-2 text-[12.5px] text-muted sm:w-auto">
           Output
-          <Select aria-label="Output language" value={language} onChange={(e) => setLanguage(e.target.value as LanguageId)} className="min-w-[200px]">
+          <Select aria-label="Output language" value={language} onChange={(e) => setLanguage(e.target.value as LanguageId)} className="min-w-0 flex-1 sm:min-w-[200px] sm:flex-none">
             {groups.map((g) => (
               <optgroup key={g} label={g}>
                 {GENERATORS.filter((x) => x.info.group === g).map((x) => (
@@ -57,7 +59,7 @@ export function ConverterView() {
             ))}
           </Select>
         </label>
-        <div className="ml-auto flex gap-1.5">
+        <div className="flex w-full gap-1.5 sm:ml-auto sm:w-auto">
           <Button size="sm" variant="ghost" onClick={() => setInput(SAMPLE)}>Load example</Button>
           <Button
             size="sm"
@@ -72,8 +74,8 @@ export function ConverterView() {
 
       <div className="min-h-0 flex-1 overflow-hidden rounded-lg border border-border bg-surface">
         <Splitter
-          direction="horizontal"
-          initial={45}
+          direction={isDesktop ? 'horizontal' : 'vertical'}
+          initial={isDesktop ? 45 : 40}
           label="Resize input and output panels"
           first={
             <Panel title="cURL command" actions={<Button size="sm" variant="ghost" onClick={() => setInput('')} disabled={!input}>Clear</Button>} className="h-full rounded-none border-0">

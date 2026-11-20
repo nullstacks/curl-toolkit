@@ -22,7 +22,7 @@ export function EnvironmentsView() {
   const patch = (next: Environment) => repo.saveEnvironment(next);
 
   return (
-    <div className="grid h-full grid-cols-[260px_minmax(0,1fr)] gap-3 p-3">
+    <div className="grid min-h-full grid-cols-1 gap-3 p-3 md:h-full md:grid-cols-[260px_minmax(0,1fr)]">
       <Panel title="Environments" actions={<Button size="icon" variant="ghost" aria-label="New environment" onClick={create}><Plus size={14} /></Button>}>
         <ul className="flex flex-col gap-0.5 p-2" aria-label="Environments list">
           {envs?.map((e) => (
@@ -42,6 +42,7 @@ export function EnvironmentsView() {
       ) : (
         <Panel
           title={current.name}
+          className="min-h-[24rem] md:min-h-0"
           actions={
             <>
               <Button size="sm" variant={prefs?.activeEnvironmentId === current.id ? 'secondary' : 'ghost'} onClick={() => repo.savePreferences({ activeEnvironmentId: prefs?.activeEnvironmentId === current.id ? null : current.id })}>
@@ -61,7 +62,7 @@ export function EnvironmentsView() {
             </Notice>
             <div className="flex flex-col gap-1.5">
               {current.variables.map((v) => (
-                <div key={v.id} className="grid grid-cols-[auto_minmax(0,1fr)_minmax(0,1.4fr)_auto_auto] items-center gap-2">
+                <div key={v.id} className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 sm:grid-cols-[auto_minmax(0,1fr)_minmax(0,1.4fr)_auto_auto]">
                   <input type="checkbox" aria-label={`Enable ${v.key}`} checked={v.enabled} onChange={(e) => patch({ ...current, variables: current.variables.map((x) => x.id === v.id ? { ...x, enabled: e.target.checked } : x) })} />
                   <Input aria-label="Variable name" placeholder="baseUrl" value={v.key} onChange={(e) => patch({ ...current, variables: current.variables.map((x) => x.id === v.id ? { ...x, key: e.target.value } : x) })} />
                   <Input aria-label="Variable value" type={v.secret ? 'password' : 'text'} autoComplete="off" value={v.value} onChange={(e) => patch({ ...current, variables: current.variables.map((x) => x.id === v.id ? { ...x, value: e.target.value } : x) })} />

@@ -19,7 +19,7 @@ export function RunnerView() {
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <div className="flex items-center gap-1 overflow-x-auto border-b border-border bg-surface px-2" role="tablist" aria-label="Open requests">
+      <div className="flex items-center gap-1 overflow-x-auto border-b border-border bg-surface px-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label="Open requests">
         {tabs.map((t) => (
           <div
             key={t.id}
@@ -29,7 +29,7 @@ export function RunnerView() {
               <span className="font-mono text-[10.5px] text-accent">{t.request.method}</span>
               <span className="truncate">{t.title || 'Untitled'}</span>
             </button>
-            <button aria-label={`Close ${t.title}`} onClick={() => closeTab(t.id)} className="rounded p-0.5 opacity-0 hover:bg-surface-2 group-hover:opacity-100 focus:opacity-100">
+            <button aria-label={`Close ${t.title}`} onClick={() => closeTab(t.id)} className="rounded p-1 opacity-100 hover:bg-surface-2 md:p-0.5 md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100">
               <X size={12} />
             </button>
           </div>
@@ -65,7 +65,7 @@ function TabWorkspace({ tab }: { tab: Tab }) {
 
   return (
     <div
-      className="min-h-0 flex-1 p-2"
+      className="min-h-0 flex-1 p-1.5 md:p-2"
       onKeyDown={(e) => {
         if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
           e.preventDefault();
@@ -85,7 +85,7 @@ function TabWorkspace({ tab }: { tab: Tab }) {
       <div className="h-[calc(100%-2.25rem)] overflow-hidden rounded-lg border border-border bg-surface">
         <Splitter
           direction="vertical"
-          initial={48}
+          initial={55}
           label="Resize request and response panels"
           first={
             <RequestEditor

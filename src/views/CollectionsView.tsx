@@ -31,8 +31,8 @@ export function CollectionsView() {
   const visible = (requests ?? []).filter((r) => r.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
-    <div className="grid h-full grid-cols-[260px_minmax(0,1fr)] gap-3 p-3">
-      <Panel title="Collections" actions={null}>
+    <div className="grid min-h-full grid-cols-1 gap-3 p-3 md:h-full md:grid-cols-[260px_minmax(0,1fr)]">
+      <Panel title="Collections" actions={null} className="max-md:max-h-72">
         <div className="flex flex-col gap-2 p-2">
           <form
             className="flex gap-1.5"
@@ -78,6 +78,7 @@ export function CollectionsView() {
       ) : (
         <Panel
           title={current.name}
+          className="min-h-[24rem] md:min-h-0"
           actions={
             <Button size="sm" variant="danger" onClick={async () => { await repo.deleteCollection(current.id); setSelected(null); }}>
               <Trash2 size={13} /> Delete collection
@@ -86,7 +87,7 @@ export function CollectionsView() {
         >
           <div className="flex h-full flex-col gap-3 p-3">
             <div className="flex flex-wrap items-center gap-2">
-              <Input aria-label="Search requests in collection" placeholder="Search requests" value={search} onChange={(e) => setSearch(e.target.value)} className="max-w-xs" />
+              <Input aria-label="Search requests in collection" placeholder="Search requests" value={search} onChange={(e) => setSearch(e.target.value)} className="w-full sm:max-w-xs" />
               <form
                 className="flex items-center gap-1.5"
                 onSubmit={async (e) => {
@@ -96,7 +97,7 @@ export function CollectionsView() {
                   setFolderName('');
                 }}
               >
-                <Input aria-label="New folder name" placeholder="New folder" value={folderName} onChange={(e) => setFolderName(e.target.value)} className="w-40" />
+                <Input aria-label="New folder name" placeholder="New folder" value={folderName} onChange={(e) => setFolderName(e.target.value)} className="w-full sm:w-40" />
                 <Button type="submit" size="sm" variant="secondary"><FolderPlus size={13} /> Folder</Button>
               </form>
             </div>
@@ -108,10 +109,10 @@ export function CollectionsView() {
             <ul className="min-h-0 flex-1 divide-y divide-border overflow-auto rounded-md border border-border" aria-label="Saved requests">
               {visible.length === 0 && <li className="p-4 text-[12.5px] text-muted">No saved requests here. Use Save in the Runner to add one.</li>}
               {visible.map((r) => (
-                <li key={r.id} className="flex items-center gap-3 px-3 py-2 text-[12.5px]">
+                <li key={r.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2 text-[12.5px] sm:flex-nowrap">
                   <span className="w-16 font-mono text-accent">{r.request.method}</span>
                   <span className="min-w-0 flex-1 truncate">{r.name}</span>
-                  <span className="max-w-[40%] truncate font-mono text-muted">{r.request.url}</span>
+                  <span className="order-last w-full truncate font-mono text-muted sm:order-none sm:w-auto sm:max-w-[40%]">{r.request.url}</span>
                   <Button size="icon" variant="ghost" aria-label={r.favorite ? 'Unfavorite' : 'Favorite'} onClick={() => db.requests.update(r.id, { favorite: !r.favorite })}>
                     <Star size={13} className={r.favorite ? 'fill-warn text-warn' : ''} />
                   </Button>

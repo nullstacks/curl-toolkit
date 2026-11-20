@@ -80,11 +80,11 @@ export default function App() {
   };
 
   return (
-    <div className="flex h-full flex-col md:flex-row">
-      <Sidebar />
+    <div className="flex h-[100dvh] flex-col md:flex-row">
       <main className="min-h-0 min-w-0 flex-1 overflow-hidden" aria-label={view}>
         {pages[view]}
       </main>
+      <Sidebar className="order-last md:order-first" />
     </div>
   );
 }

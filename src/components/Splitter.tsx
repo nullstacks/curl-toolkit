@@ -1,4 +1,4 @@
-import { useRef, useState, type ReactNode, type PointerEvent as RPointerEvent } from 'react';
+import { useRef, useState, type KeyboardEvent as RKeyboardEvent, type PointerEvent as RPointerEvent, type ReactNode } from 'react';
 import { cn } from '../lib/cn';
 
 interface Props {
@@ -36,7 +36,7 @@ export function Splitter({ direction, initial, min = 20, max = 80, first, second
     window.addEventListener('pointerup', up);
   };
 
-  const onKey = (e: React.KeyboardEvent) => {
+  const onKey = (e: RKeyboardEvent) => {
     const step = e.shiftKey ? 5 : 1;
     const grow = horizontal ? 'ArrowRight' : 'ArrowDown';
     const shrink = horizontal ? 'ArrowLeft' : 'ArrowUp';
@@ -58,8 +58,8 @@ export function Splitter({ direction, initial, min = 20, max = 80, first, second
         onPointerDown={onPointerDown}
         onKeyDown={onKey}
         className={cn(
-          'shrink-0 bg-border/70 transition-colors hover:bg-accent/60 focus:bg-accent/60 focus:outline-none',
-          horizontal ? 'w-1 cursor-col-resize' : 'h-1 cursor-row-resize',
+          'touch-none shrink-0 bg-border/70 transition-colors hover:bg-accent/60 focus:bg-accent/60 focus:outline-none',
+          horizontal ? 'w-1 cursor-col-resize' : 'h-2 cursor-row-resize md:h-1',
         )}
       />
       <div className="min-h-0 min-w-0 flex-1 overflow-hidden">{second}</div>

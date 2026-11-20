@@ -20,7 +20,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLBut
         'inline-flex items-center justify-center gap-1.5 rounded-md font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-40',
         size === 'sm' && 'h-7 px-2 text-xs',
         size === 'md' && 'h-8 px-3 text-[13px]',
-        size === 'icon' && 'h-7 w-7',
+        size === 'icon' && 'h-7 w-7 max-md:h-9 max-md:w-9',
         variants[variant],
         className,
       )}
@@ -34,7 +34,7 @@ export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputE
   <input
     ref={ref}
     className={cn(
-      'h-8 w-full min-w-0 rounded-md border border-border bg-bg px-2.5 text-[13px] text-fg placeholder:text-muted/70 focus:border-accent/60 focus:outline-none',
+      'h-8 w-full min-w-0 rounded-md border border-border bg-bg px-2.5 text-[16px] text-fg placeholder:text-muted/70 focus:border-accent/60 focus:outline-none md:text-[13px] max-md:h-9',
       className,
     )}
     {...props}
@@ -46,7 +46,7 @@ export function Select({ className, ...props }: SelectHTMLAttributes<HTMLSelectE
   return (
     <select
       className={cn(
-        'h-8 rounded-md border border-border bg-bg px-2 text-[13px] text-fg focus:border-accent/60 focus:outline-none',
+        'h-8 rounded-md border border-border bg-bg px-2 text-[16px] text-fg focus:border-accent/60 focus:outline-none md:text-[13px] max-md:h-9',
         className,
       )}
       {...props}

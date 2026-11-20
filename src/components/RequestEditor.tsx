@@ -36,12 +36,12 @@ export function RequestEditor({ request, onChange, onSend, onCancel, running, va
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <div className="flex items-center gap-2 border-b border-border p-2">
+      <div className="flex flex-wrap items-center gap-2 border-b border-border p-2">
         <Select
           aria-label="HTTP method"
           value={methodIsCustom ? '__custom' : request.method}
           onChange={(e) => onChange({ method: e.target.value === '__custom' ? 'PROPFIND' : e.target.value })}
-          className="w-[104px] font-mono font-medium"
+          className="w-[104px] font-mono font-medium max-md:h-9"
         >
           {METHODS.map((m) => (
             <option key={m} value={m}>{m}</option>
@@ -61,7 +61,7 @@ export function RequestEditor({ request, onChange, onSend, onCancel, running, va
           placeholder="https://api.example.com/resource or {{baseUrl}}/resource"
           value={request.url}
           onChange={(e) => onChange({ url: e.target.value })}
-          className="h-8 flex-1 font-mono"
+          className="order-last h-8 min-w-0 basis-full font-mono max-md:h-9 sm:order-none sm:basis-auto sm:flex-1"
         />
         {running ? (
           <Button variant="danger" onClick={onCancel} aria-label="Cancel request">
@@ -82,7 +82,7 @@ export function RequestEditor({ request, onChange, onSend, onCancel, running, va
         </div>
       )}
 
-      <nav className="flex gap-1 border-b border-border px-2" role="tablist" aria-label="Request sections">
+      <nav className="flex gap-1 overflow-x-auto border-b border-border px-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label="Request sections">
         {SECTIONS.map(([id, label]) => (
           <button
             key={id}
@@ -90,7 +90,7 @@ export function RequestEditor({ request, onChange, onSend, onCancel, running, va
             aria-selected={section === id}
             onClick={() => setSection(id)}
             className={cn(
-              'relative -mb-px border-b-2 px-2.5 py-2 text-[12.5px] transition-colors',
+              'relative -mb-px shrink-0 border-b-2 px-2.5 py-2.5 text-[12.5px] transition-colors md:py-2',
               section === id ? 'border-accent text-fg' : 'border-transparent text-muted hover:text-fg',
             )}
           >

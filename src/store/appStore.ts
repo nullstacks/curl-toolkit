@@ -60,7 +60,7 @@ export const useAppStore = create<AppState>((set, get) => {
     tabs: [first],
     activeTabId: first.id,
     converterInput: '',
-    converterLanguage: 'curl',
+    converterLanguage: 'python',
     commandPaletteOpen: false,
 
     setView: (view) => set({ view }),

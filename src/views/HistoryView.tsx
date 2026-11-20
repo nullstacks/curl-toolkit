@@ -34,7 +34,7 @@ export function HistoryView() {
   return (
     <div className="flex h-full flex-col gap-3 p-3">
       <div className="flex flex-wrap items-center gap-2">
-        <Input aria-label="Filter history by URL" placeholder="Filter by URL" value={query} onChange={(e) => setQuery(e.target.value)} className="max-w-xs" />
+        <Input aria-label="Filter history by URL" placeholder="Filter by URL" value={query} onChange={(e) => setQuery(e.target.value)} className="w-full sm:max-w-xs" />
         <Select aria-label="Filter by method" value={method} onChange={(e) => setMethod(e.target.value)}>
           <option value="">All methods</option>
           {methods.map((m) => <option key={m}>{m}</option>)}
@@ -46,12 +46,12 @@ export function HistoryView() {
       <Panel className="min-h-0 flex-1">
         <ul className="h-full divide-y divide-border overflow-auto" aria-label="Request history">
           {filtered.map((r) => (
-            <li key={r.id} className="flex items-center gap-3 px-3 py-2 text-[12.5px] hover:bg-surface-2/60">
-              <span className="w-16 shrink-0 font-mono text-accent">{r.method}</span>
-              <span className="min-w-0 flex-1 truncate font-mono" title={r.url}>{r.url}</span>
+            <li key={r.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2 text-[12.5px] hover:bg-surface-2/60 sm:flex-nowrap">
+              <span className="w-14 shrink-0 font-mono text-accent sm:w-16">{r.method}</span>
+              <span className="min-w-0 flex-1 basis-40 truncate font-mono" title={r.url}>{r.url}</span>
               {r.error ? <Badge tone="danger">error</Badge> : <Badge tone={statusTone(r.status ?? 0)}>{r.status}</Badge>}
-              <span className="w-16 shrink-0 text-right text-muted">{r.durationMs !== null ? `${Math.round(r.durationMs)} ms` : ''}</span>
-              <span className="w-32 shrink-0 text-right text-muted">{new Date(r.createdAt).toLocaleString()}</span>
+              <span className="hidden w-16 shrink-0 text-right text-muted sm:block">{r.durationMs !== null ? `${Math.round(r.durationMs)} ms` : ''}</span>
+              <span className="hidden w-32 shrink-0 text-right text-muted md:block">{new Date(r.createdAt).toLocaleString()}</span>
               <Button size="icon" variant="ghost" aria-label={r.favorite ? 'Remove favorite' : 'Add favorite'} onClick={() => db.history.update(r.id, { favorite: !r.favorite })}>
                 <Star size={13} className={r.favorite ? 'fill-warn text-warn' : ''} />
               </Button>

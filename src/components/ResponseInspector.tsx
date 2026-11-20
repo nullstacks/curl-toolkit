@@ -83,13 +83,13 @@ export function ResponseInspector({ run }: { run: RunState }) {
       }
     >
       <div className="flex h-full min-h-0 flex-col">
-        <div className="flex items-center gap-2 border-b border-border px-2 py-1.5">
+        <div className="flex flex-wrap items-center gap-2 border-b border-border px-2 py-1.5">
           {(['body', 'headers', 'preview'] as Pane[]).map((p) => (
             <Button key={p} size="sm" variant={pane === p ? 'secondary' : 'ghost'} onClick={() => setPane(p)} aria-pressed={pane === p}>
               {p === 'body' ? 'Body' : p === 'headers' ? `Headers (${outcome.headers.length})` : 'Preview'}
             </Button>
           ))}
-          <div className="ml-auto flex items-center gap-1">
+          <div className="flex w-full flex-wrap items-center gap-1 sm:ml-auto sm:w-auto">
             <div className="relative">
               <Search size={12} className="pointer-events-none absolute left-2 top-2.5 text-muted" />
               <Input
@@ -97,7 +97,7 @@ export function ResponseInspector({ run }: { run: RunState }) {
                 placeholder="Search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="h-7 w-36 pl-6 text-xs"
+                className="h-7 w-full pl-6 text-xs sm:w-36"
               />
             </div>
             {query && <span className="text-[11px] text-muted">{matchCount} match{matchCount === 1 ? '' : 'es'}</span>}
