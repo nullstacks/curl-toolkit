@@ -84,6 +84,12 @@ export class ToolkitDB extends Dexie {
       environments: 'id, updatedAt',
       preferences: 'key',
     });
+    // v2 adds the `name` indexes the collection and environment lists sort by.
+    // Without them Dexie throws SchemaError on orderBy('name') and the view renders blank.
+    this.version(2).stores({
+      collections: 'id, name, updatedAt',
+      environments: 'id, name, updatedAt',
+    });
   }
 }
 

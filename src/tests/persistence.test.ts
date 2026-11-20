@@ -77,4 +77,16 @@ describe('local persistence', () => {
     await repo.clearAll();
     expect(await db.collections.count()).toBe(0);
   });
+
+  it('sorts collections and environments by name (index exists in the schema)', async () => {
+    await repo.createCollection('Zebra');
+    await repo.createCollection('Alpha');
+    const names = (await db.collections.orderBy('name').toArray()).map((c) => c.name);
+    expect(names).toEqual(['Alpha', 'Zebra']);
+
+    const now = Date.now();
+    await repo.saveEnvironment({ id: 'e1', name: 'prod', variables: [], createdAt: now, updatedAt: now });
+    await repo.saveEnvironment({ id: 'e2', name: 'dev', variables: [], createdAt: now, updatedAt: now });
+    expect((await db.environments.orderBy('name').toArray()).map((e) => e.name)).toEqual(['dev', 'prod']);
+  });
 });
